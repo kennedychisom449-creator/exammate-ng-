@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#126b50"><link rel="manifest" href="./manifest.webmanifest"><title>ExamMate NG</title>
+<style>
+:root{--g:#126b50;--mint:#e8f5ef;--ink:#17231e;--muted:#64736c;--line:#dce6e0;--bg:#f5f8f6}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,sans-serif}header{background:var(--g);color:white;padding:22px max(18px,calc((100% - 760px)/2))}header small{letter-spacing:.1em;opacity:.8;font-weight:700}h1{margin:5px 0;font-size:27px}header p{margin:0;opacity:.9}main{max-width:760px;margin:auto;padding:16px}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:14px;box-shadow:0 4px 18px #183d2c08}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}select,button{font:inherit;border-radius:11px;padding:12px;border:1px solid var(--line);background:white;color:var(--ink);width:100%}button{background:var(--g);color:white;border:0;font-weight:700;cursor:pointer}button.secondary{background:var(--mint);color:var(--g)}button:disabled{opacity:.45}h2{font-size:19px;margin:0 0 12px}.muted{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--mint);padding:12px;border-radius:12px}.stat strong{display:block;font-size:22px;color:var(--g)}.topic{display:inline-block;background:#edf3ef;border-radius:20px;padding:5px 9px;font-size:12px;color:#36564a}.q{font-size:18px;font-weight:650;line-height:1.5;margin:14px 0}.choice{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);padding:12px;border-radius:12px;margin:8px 0;cursor:pointer}.choice input{margin-top:4px;accent-color:var(--g)}.correct{border-color:#24925f;background:#edfaf2}.wrong{border-color:#d45c52;background:#fff2f0}#feedback{background:#f3f8f5;padding:12px;border-radius:12px;margin-top:12px;line-height:1.5}.hidden{display:none!important}.progress{height:8px;background:#e6ece8;border-radius:20px;overflow:hidden;margin:8px 0}.progress span{display:block;height:100%;background:var(--g);width:0}footer{text-align:center;color:var(--muted);font-size:12px;padding:8px 20px 28px}
+</style></head><body>
+<header><small>JAMB STUDY COMPANION</small><h1>ExamMate NG</h1><p>Practice a little. Learn from every mistake.</p></header>
+<main>
+<section class="panel" id="installPanel"><h2>Install ExamMate NG</h2><p class="muted">After this app is hosted securely, use your browser menu to install it. Offline caching is enabled for the app shell.</p><button id="installBtn" class="secondary" hidden>Install app</button><p id="installStatus" class="muted"></p></section>
+<section class="panel"><h2>Your progress</h2><div class="stats"><div class="stat"><span class="muted">Answered</span><strong id="total">0</strong></div><div class="stat"><span class="muted">Correct</span><strong id="correct">0</strong></div><div class="stat"><span class="muted">Accuracy</span><strong id="accuracy">0%</strong></div></div><div class="progress"><span id="bar"></span></div><p class="muted">Progress is saved on this device only.</p><button class="secondary" id="resetProgress">Reset progress</button></section>
+<section class="panel"><h2>Start a practice session</h2><div class="row"><div><label for="subject">Subject</label><select id="subject"><option>Use of English</option><option>Mathematics</option><option>Biology</option><option>Chemistry</option><option>Physics</option><option>Agriculture</option><option>Arabic</option><option>Art</option><option>Christian Religious Studies</option><option>Commerce</option><option>Computer Studies</option><option>Economics</option><option>French</option><option>Geography</option><option>Government</option><option>Hausa</option><option>History</option><option>Home Economics</option><option>Igbo</option><option>Islamic Studies</option><option>Literature in English</option><option>Music</option><option>Physical and Health Education</option><option>Principles of Accounting</option><option>Yoruba</option></select></div><div><label for="topic">Topic</label><select id="topic"><option value="all">All topics</option></select></div></div><p class="muted">All 25 JAMB subject areas are listed. Questions currently available are original samples—not official JAMB past questions. More reviewed questions will be added subject by subject.</p><button id="start">Start practice</button></section>
+<section class="panel hidden" id="quiz"><div class="row"><div class="stat"><span class="muted">Question</span><strong id="count">1 / 5</strong></div><div class="stat"><span class="muted">Session score</span><strong id="score">0</strong></div><div class="stat"><span class="muted">Timer</span><strong id="timer">—</strong></div></div><span class="topic" id="tag"></span><div class="q" id="question"></div><div id="choices"></div><div id="feedback" class="hidden"></div><div class="row" style="margin-top:14px"><button class="secondary" id="skip">Skip</button><button id="next" disabled>Check answer</button></div></section>
+<section class="panel hidden" id="result"><h2>Session complete 🎉</h2><p id="summary"></p><button id="again">Practice again</button></section>
+<section class="panel"><h2>What this version includes</h2><p class="muted">Subject and topic filters, question explanations, session scoring, a timer, and locally saved progress. Next: verified content, offline installation, student accounts, and payments.</section>
+</main><footer>ExamMate NG · Prototype · Not affiliated with JAMB</footer>
+<script>
+const bank={
+"Mathematics":[
+{topic:"Algebra",q:"Solve: 3x − 7 = 11.",o:["x = 4","x = 6","x = 8","x = 18"],a:1,e:"Add 7: 3x = 18. Divide by 3: x = 6."},
+{topic:"Percentages",q:"What is 15% of 240?",o:["24","30","36","40"],a:2,e:"10% is 24 and 5% is 12. Total = 36."},
+{topic:"Arithmetic",q:"Simplify: 2(3 + 5) − 4.",o:["8","12","16","20"],a:1,e:"Brackets first: 2 × 8 − 4 = 12."},
+{topic:"Geometry",q:"A triangle has angles 50° and 60°. Find the third angle.",o:["60°","70°","80°","90°"],a:1,e:"Angles add to 180°: 180 − 50 − 60 = 70°."},
+{topic:"Fractions",q:"Express 0.75 as a fraction in simplest form.",o:["1/4","2/3","3/4","4/5"],a:2,e:"75/100 simplifies to 3/4."},
+{topic:"Algebra",q:"If y = 2x + 1, find y when x = 4.",o:["7","8","9","10"],a:2,e:"Substitute x = 4: y = 2(4) + 1 = 9."}],
+"Use of English":[
+{topic:"Vocabulary",q:"Choose the word nearest in meaning to “brief”.",o:["Short","Bright","Wide","Weak"],a:0,e:"Brief means short in duration or length."},
+{topic:"Grammar",q:"Neither the teacher nor the students ___ present.",o:["was","were","is","has"],a:1,e:"The verb agrees with the nearer subject, “students”: were."},
+{topic:"Spelling",q:"Choose the correctly spelt word.",o:["Accomodation","Accommodation","Acommodation","Acomodation"],a:1,e:"Accommodation has double c and double m."},
+{topic:"Vocabulary",q:"The opposite of “expand” is ___.",o:["Extend","Increase","Contract","Enlarge"],a:2,e:"Contract means to become smaller."},
+{topic:"Grammar",q:"Choose the correct sentence.",o:["She have finished.","She has finished.","She having finished.","She finish."],a:1,e:"“She” takes “has” in the present perfect."}],
+"Physics":[
+{topic:"Measurement",q:"The SI unit of force is the ___.",o:["Joule","Watt","Newton","Pascal"],a:2,e:"Force is measured in newtons (N)."},
+{topic:"Motion",q:"A car travels 100 m in 20 s. Its average speed is ___.",o:["2 m/s","5 m/s","20 m/s","80 m/s"],a:1,e:"Average speed = distance ÷ time = 100 ÷ 20 = 5 m/s."},
+{topic:"Electricity",q:"Which instrument measures electric current?",o:["Voltmeter","Ammeter","Barometer","Thermometer"],a:1,e:"An ammeter measures current."},
+{topic:"Energy",q:"The energy possessed by a moving object is called ___.",o:["Potential energy","Chemical energy","Kinetic energy","Heat energy"],a:2,e:"Kinetic energy is the energy of motion."},
+{topic:"Waves",q:"Sound cannot travel through ___.",o:["Water","Air","Steel","Vacuum"],a:3,e:"Sound needs a medium and cannot travel through a vacuum."}]
+};
+// Subject catalog is complete; question banks are being added progressively.
+bank['Use of English']=bank['Use of English']||[];
+bank['Mathematics']=bank['Mathematics']||[];
+bank['Biology']=bank['Biology']||[];
+bank['Chemistry']=bank['Chemistry']||[];
+bank['Physics']=bank['Physics']||[];
+bank['Agriculture']=bank['Agriculture']||[];
+bank['Arabic']=bank['Arabic']||[];
+bank['Art']=bank['Art']||[];
+bank['Christian Religious Studies']=bank['Christian Religious Studies']||[];
+bank['Commerce']=bank['Commerce']||[];
+bank['Computer Studies']=bank['Computer Studies']||[];
+bank['Economics']=bank['Economics']||[];
+bank['French']=bank['French']||[];
+bank['Geography']=bank['Geography']||[];
+bank['Government']=bank['Government']||[];
+bank['Hausa']=bank['Hausa']||[];
+bank['History']=bank['History']||[];
+bank['Home Economics']=bank['Home Economics']||[];
+bank['Igbo']=bank['Igbo']||[];
+bank['Islamic Studies']=bank['Islamic Studies']||[];
+bank['Literature in English']=bank['Literature in English']||[];
+bank['Music']=bank['Music']||[];
+bank['Physical and Health Education']=bank['Physical and Health Education']||[];
+bank['Principles of Accounting']=bank['Principles of Accounting']||[];
+bank['Yoruba']=bank['Yoruba']||[];
+let qs=[],idx=0,session=0,pick=null,locked=false,secs=0,tick=null;
+let stats=JSON.parse(localStorage.getItem("examMateStats")||'{"answered":0,"correct":0}');
+const $=x=>document.getElementById(x);
+function save(){localStorage.setItem("examMateStats",JSON.stringify(stats));dashboard()}
+function dashboard(){$("total").textContent=stats.answered;$("correct").textContent=stats.correct;$("accuracy").textContent=stats.answered?Math.round(stats.correct/stats.answered*100)+"%":"0%";$("bar").style.width=Math.min(100,stats.answered/100*100)+"%"}
+function topics(){let subject=$("subject").value,old=$("topic").value;let arr=[...new Set((bank[subject]||[]).map(q=>q.topic))];$("topic").innerHTML='<option value="all">All topics</option>'+arr.map(t=>`<option>${t}</option>`).join("");if(arr.includes(old))$("topic").value=old}
+function start(){clearInterval(tick);let subject=$("subject").value,topic=$("topic").value;qs=(bank[subject]||[]).filter(q=>topic==="all"||q.topic===topic);if(!qs.length){alert("Question bank for "+subject+" is not added yet. The subject is available; questions will be added after review.");return}idx=0;session=0;secs=0;$("quiz").classList.remove("hidden");$("result").classList.add("hidden");render();tick=setInterval(()=>{secs++;$("timer").textContent=Math.floor(secs/60)+":"+String(secs%60).padStart(2,"0")},1000)}
+function render(){pick=null;locked=false;let q=qs[idx];$("count").textContent=(idx+1)+" / "+qs.length;$("score").textContent=session;$("tag").textContent=q.topic;$("question").textContent=q.q;$("choices").innerHTML="";q.o.forEach((v,n)=>{let l=document.createElement("label");l.className="choice";l.innerHTML=`<input type="radio" name="answer" value="${n}"><span><b>${"ABCD"[n]}.</b> ${v}</span>`;l.querySelector("input").onchange=()=>{pick=n;$("next").disabled=false};$("choices").append(l)});$("feedback").classList.add("hidden");$("next").disabled=true;$("next").textContent="Check answer";$("skip").disabled=false}
+function advance(){if(idx<qs.length-1){idx++;render()}else finish()}
+function check(){if(!locked){if(pick===null)return;locked=true;let q=qs[idx],ok=pick===q.a;if(ok){session++;stats.correct++}stats.answered++;save();[...$("choices").children].forEach((el,n)=>{if(n===q.a)el.classList.add("correct");if(n===pick&&!ok)el.classList.add("wrong");el.querySelector("input").disabled=true});$("feedback").classList.remove("hidden");$("feedback").innerHTML=`<strong>${ok?"Correct!":"Not quite."}</strong><br>${q.e}`;$("score").textContent=session;$("next").textContent=idx===qs.length-1?"See results":"Next question";$("skip").disabled=true}else advance()}
+function skip(){advance()}
+function finish(){clearInterval(tick);$("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("summary").textContent=`You scored ${session} out of ${qs.length} (${Math.round(session/qs.length*100)}%). Total answered across sessions: ${stats.answered}. Review explanations and try again.`}
+$("subject").onchange=topics;$("start").onclick=start;$("next").onclick=check;$("skip").onclick=skip;$("again").onclick=start;$("resetProgress").onclick=()=>{if(confirm("Reset all progress saved on this device?")){stats={answered:0,correct:0};save()}};topics();dashboard();
+ 
+let installPrompt;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;$("installBtn").hidden=false});$("installBtn").addEventListener("click",async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$("installBtn").hidden=true});if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").then(()=>{$("installStatus").textContent="Offline app shell ready."}).catch(()=>{$("installStatus").textContent="Offline setup could not register."});
+</script></body></html>
